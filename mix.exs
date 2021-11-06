@@ -9,6 +9,7 @@ defmodule Tefla.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
+      dialyzer: dialyzer(),
       aliases: aliases(),
       deps: deps()
     ]
@@ -43,6 +44,8 @@ defmodule Tefla.MixProject do
       {:floki, ">= 0.30.0", only: :test},
       {:phoenix_live_dashboard, "~> 0.6"},
       {:esbuild, "~> 0.3", runtime: Mix.env() == :dev},
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.1", only: [:dev, :test], runtime: false},
       {:swoosh, "~> 1.3"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
@@ -70,6 +73,14 @@ defmodule Tefla.MixProject do
         "esbuild default --minify",
         "phx.digest"
       ]
+    ]
+  end
+
+  defp dialyzer do
+    [
+      plt_add_apps: [:mix, :ex_unit],
+      ignore_warnings: ".dialyzer.ignore",
+      plt_file: {:no_warn, "priv/plts/dialyzer.plt"}
     ]
   end
 end

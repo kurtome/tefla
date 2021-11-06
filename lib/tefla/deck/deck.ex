@@ -1,4 +1,8 @@
 defmodule Tefla.Deck do
+  @moduledoc """
+  Struct for representing the state of a deck of cards.
+  """
+
   use TypedStruct
 
   typedstruct do

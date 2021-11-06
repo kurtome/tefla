@@ -1,4 +1,8 @@
 defmodule TeflaWeb.Telemetry do
+  @moduledoc """
+  GenServer which sends telemetry measurements periodically.
+  """
+
   use Supervisor
   import Telemetry.Metrics
 

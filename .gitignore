@@ -35,3 +35,7 @@ npm-debug.log
 # IntelliJ files
 .idea
 *.iml
+
+# Dialyzer
+/priv/plts/*.plt
+/priv/plts/*.plt.hash
