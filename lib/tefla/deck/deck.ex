@@ -11,16 +11,30 @@ defmodule Tefla.Deck do
   end
 
   @suits [:club, :diamond, :heart, :spade]
-  @aces_high_faces [:two, :three, :four, :five, :six, :seven, :eight, :nine, :ten, :jack, :queen, :king, :ace]
+  @aces_high_faces [
+    :two,
+    :three,
+    :four,
+    :five,
+    :six,
+    :seven,
+    :eight,
+    :nine,
+    :ten,
+    :jack,
+    :queen,
+    :king,
+    :ace
+  ]
 
   @standard_aces_high Enum.flat_map(@suits, fn s ->
-    for ({f, i} <- Enum.with_index(@aces_high_faces)) do
-      %Card{suit: s, face: f, rank: i}
-    end
-  end)
+                        for f <- @aces_high_faces do
+                          %Card{suit: s, face: f}
+                        end
+                      end)
 
   def standard do
-    %Deck{ cards: @standard_aces_high }
+    %Deck{cards: @standard_aces_high}
   end
 
   def shuffle(%Deck{cards: cards}) do
@@ -30,5 +44,4 @@ defmodule Tefla.Deck do
   def top_card(%Deck{cards: [first | _rest]}) do
     first
   end
-
 end

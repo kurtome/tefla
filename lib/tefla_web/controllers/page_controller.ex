@@ -3,6 +3,7 @@ defmodule TeflaWeb.PageController do
 
   def index(conn, _params) do
     deck = Tefla.Deck.standard()
+
     conn
     |> assign(:deck, deck)
     |> assign(:card, Enum.at(deck.cards, 0))

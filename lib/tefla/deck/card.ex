@@ -6,6 +6,5 @@ defmodule Tefla.Deck.Card do
 
     field :suit, atom(), enforce: true
     field :face, atom(), enforce: true
-    field :rank, integer(), enforce: true
   end
 end
