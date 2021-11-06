@@ -5,6 +5,13 @@
 
 <section class="row">
   <div>
+    <div class="grid grid-flow-row-dense grid-cols-4">
+        <%= for (card <- @deck.cards) do %>
+          <div>
+            <%= card_img(card) %>
+          </div>
+        <% end %>
+    </div>
     <figure>
       <img src="https://cdn.trick.games/card_sprites.png" />
     </figure>
