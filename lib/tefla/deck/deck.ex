@@ -14,7 +14,7 @@ defmodule Tefla.Deck do
     field :cards, list(Card.t()), enforce: true
   end
 
-  @suits [:club, :diamond, :heart, :spade]
+  @suits [:clubs, :diamonds, :hearts, :spades]
   @aces_high_faces [
     :two,
     :three,

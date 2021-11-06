@@ -1,4 +1,8 @@
 defmodule Tefla.Deck.Card do
+  @moduledoc """
+  Struct representing a single playing card.
+  """
+
   use TypedStruct
 
   typedstruct do

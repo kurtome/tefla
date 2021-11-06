@@ -12,10 +12,10 @@ defmodule TeflaWeb.DeckHelpers do
   @row_gap_px 30
   @col_gap_px 25
   @suit_row %{
-    diamond: 0,
-    club: 1,
-    heart: 2,
-    spade: 3
+    diamonds: 0,
+    clubs: 1,
+    hearts: 2,
+    spades: 3
   }
   @face_col %{
     two: 0,
