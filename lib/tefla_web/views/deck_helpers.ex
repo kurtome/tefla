@@ -37,11 +37,16 @@ defmodule TeflaWeb.DeckHelpers do
   Generates a
   """
   def card_img(%Card{} = card) do
-    tag(:img,
-      alt: "#{card.face} of #{card.suit}",
-      src: "https://cdn.trick.games/card_sprites.png",
-      style:
-        "height: #{@height_px}px; width: #{@width_px}px; object-fit: none; object-position: #{sprite_left(card)}px #{sprite_top(card)}px;"
+    content_tag(
+      :div,
+      tag(:img,
+        alt: "#{card.face} of #{card.suit}",
+        src: "https://cdn.trick.games/card_sprites.png",
+        style:
+          "height: #{@height_px}px; width: #{@width_px}px; object-fit: none; object-position: #{sprite_left(card)}px #{sprite_top(card)}px;"
+      ),
+      class: "bg-white rounded border border-black",
+      style: "height: #{@height_px}px; width: #{@width_px}px;"
     )
   end
 

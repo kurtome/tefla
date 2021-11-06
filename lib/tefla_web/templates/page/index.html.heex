@@ -1,11 +1,9 @@
 <section>
   <div>
     <div class="grid grid-flow-row-dense grid-cols-4">
-        <%= for (card <- @deck.cards) do %>
-          <div class="bg-white">
-            <%= card_img(card) %>
-          </div>
-        <% end %>
+      <%= for (card <- @deck.cards) do %>
+        <%= card_img(card) %>
+      <% end %>
     </div>
   </div>
 </section>
