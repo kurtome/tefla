@@ -88,6 +88,7 @@ defmodule TeflaWeb do
       import Phoenix.View
 
       import TeflaWeb.ErrorHelpers
+      import TeflaWeb.DeckHelpers
       import TeflaWeb.Gettext
       alias TeflaWeb.Router.Helpers, as: Routes
     end

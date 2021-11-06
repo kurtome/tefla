@@ -1,12 +1,11 @@
-<section class="phx-hero">
-  <h1><%= gettext "Welcome to %{name}!", name: "Phoenix" %></h1>
-  <p>Peace of mind from prototype to production</p>
-</section>
-
-<section class="row">
+<section>
   <div>
-    <figure>
-      <img src="https://cdn.trick.games/card_sprites.png" />
-    </figure>
+    <div class="grid grid-flow-row-dense grid-cols-4">
+        <%= for (card <- @deck.cards) do %>
+          <div class="bg-white">
+            <%= card_img(card) %>
+          </div>
+        <% end %>
+    </div>
   </div>
 </section>
