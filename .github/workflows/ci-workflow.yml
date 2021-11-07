@@ -50,6 +50,10 @@ jobs:
           key: ${{ runner.OS }}-build-${{ github.sha }}
           restore-keys: |
             ${{ runner.OS }}-build-
+      - name: Compile Dependencies
+        run: mix deps.compile
+      - name: Compile App
+        run: mix compile
       - name: Retrieve PLT Cache
         uses: actions/cache@v1
         id: plt-cache
@@ -61,5 +65,3 @@ jobs:
         run: |
           mkdir -p priv/plts
           mix dialyzer --plt
-      - name: Run `mix check`
-        run: mix check
