@@ -34,7 +34,7 @@ defmodule TeflaWeb.DeckHelpers do
   }
 
   @doc """
-  Generates a
+  Generates a card element.
   """
   def card_img(%Card{} = card) do
     content_tag(

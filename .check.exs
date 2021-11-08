@@ -19,9 +19,9 @@
     {:ex_unit, true},
     {:credo, [strict: true]},
     {:dialyzer, true},
+    {:doctor, true},
 
     # Disabled
-    {:doctor, false},
     {:ex_doc, false},
     {:sobelow, false},
     {:npm_test, false}

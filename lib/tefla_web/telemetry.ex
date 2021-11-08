@@ -6,6 +6,9 @@ defmodule TeflaWeb.Telemetry do
   use Supervisor
   import Telemetry.Metrics
 
+  @spec start_link(term()) ::
+          {:ok, pid()}
+          | {:error, {:already_started, pid()} | {:shutdown, term()} | term()}
   def start_link(arg) do
     Supervisor.start_link(__MODULE__, arg, name: __MODULE__)
   end
@@ -23,6 +26,7 @@ defmodule TeflaWeb.Telemetry do
     Supervisor.init(children, strategy: :one_for_one)
   end
 
+  @spec metrics() :: [Telemetry.Metrics.Summary.t()]
   def metrics do
     [
       # Phoenix Metrics
@@ -65,6 +69,7 @@ defmodule TeflaWeb.Telemetry do
     ]
   end
 
+  @spec periodic_measurements() :: [{module(), atom(), [any]}]
   defp periodic_measurements do
     [
       # A module, function and arguments to be invoked periodically.

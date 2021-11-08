@@ -46,6 +46,7 @@ defmodule Tefla.MixProject do
       {:esbuild, "~> 0.3", runtime: Mix.env() == :dev},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.1", only: [:dev, :test], runtime: false},
+      {:doctor, "~> 0.18.0", only: [:dev, :test], runtime: false},
       {:ex_check, "~> 0.14.0", only: [:dev, :test], runtime: false},
       {:swoosh, "~> 1.3"},
       {:telemetry_metrics, "~> 0.6"},
