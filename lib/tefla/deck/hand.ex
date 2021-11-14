@@ -3,11 +3,9 @@ defmodule Tefla.Deck.Hand do
   Struct representing a single hand of playing cards.
   """
 
-  use TypedStruct
+  alias Tefla.Deck.Card
 
-  typedstruct do
-    @typedoc "A hand"
+  @type t :: list(Card.t())
 
-    field :cards, atom(), enforce: true
-  end
+  def empty(), do: []
 end

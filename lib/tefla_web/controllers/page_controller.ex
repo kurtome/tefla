@@ -8,7 +8,6 @@ defmodule TeflaWeb.PageController do
 
     conn
     |> assign(:deck, deck)
-    |> assign(:card, Enum.at(deck.cards, 0))
     |> render("index.html")
   end
 end

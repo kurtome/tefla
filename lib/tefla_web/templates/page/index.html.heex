@@ -1,7 +1,7 @@
 <section>
   <div>
     <div class="grid grid-flow-row-dense grid-cols-4">
-      <%= for (card <- @deck.cards) do %>
+      <%= for (card <- @deck) do %>
         <%= card_img(card) %>
       <% end %>
     </div>
