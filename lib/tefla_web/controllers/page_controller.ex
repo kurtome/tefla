@@ -3,8 +3,8 @@ defmodule TeflaWeb.PageController do
 
   def index(conn, _params) do
     deck =
-      Tefla.Deck.standard()
-      |> Tefla.Deck.shuffle()
+      Tefla.Table.Deck.standard()
+      |> Tefla.Table.Deck.shuffle()
 
     conn
     |> assign(:deck, deck)

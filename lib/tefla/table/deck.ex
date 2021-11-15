@@ -1,12 +1,11 @@
-defmodule Tefla.Deck do
+defmodule Tefla.Table.Deck do
   @moduledoc """
   Struct for representing the state of a deck of cards.
   """
 
   use TypedStruct
 
-  alias Tefla.Deck.Card
-  alias Tefla.Deck.Hand
+  alias Tefla.Table.Card
 
   @type t() :: list(Card.t())
 
@@ -63,7 +62,7 @@ defmodule Tefla.Deck do
        - even_hands: ensure to always deal an equal number of cards to each hand, possibly leaving leftover cards,
                      default true
   """
-  @type deal_result() :: {list(Hand.t()), t()}
+  @type deal_result() :: {list(list(Card.t())), t()}
   @spec deal(t()) :: deal_result()
   @spec deal(t(), integer()) :: deal_result()
   @spec deal(t(), integer(), [keyword()]) :: deal_result()

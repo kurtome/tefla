@@ -1,7 +1,7 @@
-defmodule Tefla.DeskTest do
+defmodule Tefla.Table.DeskTest do
   use ExUnit.Case, async: true
 
-  alias Tefla.Deck
+  alias Tefla.Table.Deck
 
   test "deal 4 hands, full deck" do
     deck = Deck.standard()

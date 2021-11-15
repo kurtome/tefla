@@ -1,4 +1,4 @@
-defmodule Tefla.Deck.Card do
+defmodule Tefla.Table.Card do
   @moduledoc """
   Struct representing a single playing card.
   """

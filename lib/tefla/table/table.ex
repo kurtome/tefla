@@ -9,9 +9,9 @@ defmodule Tefla.Table do
 
   use TypedStruct
 
-  alias Tefla.Deck
-  alias Tefla.Deck.Card
-  alias Tefla.Deck.Hand
+  alias Tefla.Table.Deck
+  alias Tefla.Table.Card
+  alias Tefla.Table.Player
 
   @type deck :: list(Card.t())
   @type hand :: list(Card.t())
@@ -23,7 +23,7 @@ defmodule Tefla.Table do
     field :deck, Deck.t(), enforce: true
 
     # the players' hands
-    field :hands, list(Hand.t()), enforce: true
+    field :players, list(Player.t()), enforce: true
 
     # current trick being played
     field :trick, list(Card.t()), enforce: true
@@ -39,7 +39,7 @@ defmodule Tefla.Table do
   def new() do
     %__MODULE__{
       deck: Deck.standard(),
-      hands: Enum.map(1..4, fn _ -> Hand.empty() end),
+      players: Enum.map(1..4, fn _ -> Player.new() end),
       trick: [],
       lead: 1,
       dealer: 0
@@ -47,20 +47,24 @@ defmodule Tefla.Table do
   end
 
   @spec shuffle_deal(t()) :: {:ok, t()} | {:error, atom()}
-  def shuffle_deal(%__MODULE__{dealer: dealer, deck: deck, hands: hands, trick: []})
+  def shuffle_deal(%__MODULE__{dealer: dealer, deck: deck, players: players, trick: []})
       when length(deck) == 52 do
-    players = length(hands)
+    num_players = length(players)
 
     {dealt_hands, leftover} =
       Deck.shuffle(deck)
-      |> Deck.deal(players)
+      |> Deck.deal(num_players)
+
+    players =
+      Enum.zip(players, dealt_hands)
+      |> Enum.map(fn {p, h} -> %{p | hand: h} end)
 
     {:ok,
      %__MODULE__{
        deck: leftover,
-       hands: dealt_hands,
+       players: players,
        trick: [],
-       lead: rem(dealer + 1, players),
+       lead: rem(dealer + 1, num_players),
        dealer: dealer
      }}
   end

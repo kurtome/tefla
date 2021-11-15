@@ -4,7 +4,7 @@ defmodule TeflaWeb.DeckHelpers do
   """
 
   use Phoenix.HTML
-  alias Tefla.Deck.Card
+  alias Tefla.Table.Card
 
   # Values from sprite sheet specs
   @height_px 450
