@@ -12,6 +12,7 @@ defmodule Tefla.Table do
   alias Tefla.Table.Deck
   alias Tefla.Table.Card
   alias Tefla.Table.Player
+  alias Tefla.Table.Move
 
   @type deck :: list(Card.t())
   @type hand :: list(Card.t())
@@ -33,6 +34,9 @@ defmodule Tefla.Table do
 
     # which player is the dealer
     field :dealer, integer(), enforce: true
+
+    # which player is the dealer
+    field :valid_moves, list(Move.t()), enforce: true
   end
 
   @spec new() :: t()
@@ -42,7 +46,8 @@ defmodule Tefla.Table do
       players: Enum.map(1..4, fn _ -> Player.new() end),
       trick: [],
       lead: 1,
-      dealer: 0
+      dealer: 0,
+      valid_moves: []
     }
   end
 end

@@ -1,12 +1,17 @@
 defmodule Tefla.GameRules.Standard do
-  alias Tefla.Table
   alias Tefla.Table.Deck
   alias Tefla.GameRules
 
   @behaviour GameRules
 
   @impl GameRules
-  def deal(table) when length(table.deck) == 52 do
+  def deal(_)
+
+  def deal(table) when length(table.deck) != 52, do: {:error, "deal: deck must have 52 cards"}
+
+  def deal(table) when length(table.players) != 4, do: {:error, "deal: table must have 4 players"}
+
+  def deal(table) when length(table.deck) == 52 and length(table.players) == 4 do
     num_players = length(table.players)
 
     {dealt_hands, leftover} =
@@ -17,17 +22,10 @@ defmodule Tefla.GameRules.Standard do
       Enum.zip(table.players, dealt_hands)
       |> Enum.map(fn {p, h} -> %{p | hand: h} end)
 
-    {:ok,
-     %Table{
-       deck: leftover,
-       players: players,
-       trick: [],
-       lead: rem(table.dealer + 1, num_players),
-       dealer: table.dealer
-     }}
+    {:ok, %{table | deck: leftover, players: players, lead: rem(table.dealer + 1, num_players)}}
   end
 
-  def deal(%Table{}), do: {:error, :invalid_input}
+  def deal(_), do: {:error, "deal: invalid table"}
 
   @impl GameRules
   def move(table, _move) do
