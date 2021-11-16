@@ -1,6 +1,6 @@
 defmodule Tefla.Table.Deck do
   @moduledoc """
-  Struct for representing the state of a deck of cards.
+  Commons functions to take on a deck of cards.
   """
 
   use TypedStruct
@@ -32,6 +32,7 @@ defmodule Tefla.Table.Deck do
                         end
                       end)
 
+  @spec standard() :: t()
   def standard do
     @standard_aces_high
   end
@@ -39,6 +40,7 @@ defmodule Tefla.Table.Deck do
   @doc """
   Randomize the cards.
   """
+  @spec shuffle(t()) :: t()
   def shuffle(deck) do
     Enum.shuffle(deck)
   end
@@ -46,6 +48,7 @@ defmodule Tefla.Table.Deck do
   @doc """
   Return the first card, on "top" of the deck.
   """
+  @spec top_card(t()) :: Card.t()
   def top_card([first | _rest]) do
     first
   end

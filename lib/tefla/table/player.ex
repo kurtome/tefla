@@ -1,21 +1,26 @@
 defmodule Tefla.Table.Player do
   @moduledoc """
-  Struct representing a single hand of playing cards.
+  Player in a `Tefla.Table` card game.
   """
 
   alias Tefla.Table.Card
   use TypedStruct
 
   typedstruct do
-    @typedoc "Struct for player"
+    @typedoc """
+    hand: cards in the player's hand
+    tricks_taken: cards in the player's hand
+    """
 
     field :hand, list(Card.t()), enforce: true
+    field :tricks_taken, list(list(Card.t())), enforce: true
   end
 
   @spec new() :: t()
   def new() do
     %__MODULE__{
-      hand: []
+      hand: [],
+      tricks_taken: []
     }
   end
 end

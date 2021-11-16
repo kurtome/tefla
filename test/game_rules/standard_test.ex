@@ -1,14 +1,15 @@
-defmodule Tefla.TableTest do
+defmodule Tefla.GameRules.StandardTest do
   use ExUnit.Case, async: true
 
   alias Tefla.Table
+  alias Tefla.GameRules.Standard
 
   test "new -> deal" do
     table = Table.new()
     assert length(table.deck) == 52
     assert length(table.players) == 4
     assert table.dealer == 0
-    {:ok, table} = Table.shuffle_deal(table)
+    {:ok, table} = Standard.deal(table)
     assert length(table.deck) == 0
     assert table.dealer == 0
     assert table.lead == 1
@@ -22,13 +23,13 @@ defmodule Tefla.TableTest do
 
   test "deal updates lead to left of dealer" do
     table = %{Table.new() | dealer: 2}
-    {:ok, table} = Table.shuffle_deal(table)
+    {:ok, table} = Standard.deal(table)
     assert table.lead == 3
   end
 
   test "deal updates lead to left of dealer, wraps around" do
     table = %{Table.new() | dealer: 3}
-    {:ok, table} = Table.shuffle_deal(table)
+    {:ok, table} = Standard.deal(table)
     assert table.lead == 0
   end
 end

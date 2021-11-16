@@ -45,29 +45,4 @@ defmodule Tefla.Table do
       dealer: 0
     }
   end
-
-  @spec shuffle_deal(t()) :: {:ok, t()} | {:error, atom()}
-  def shuffle_deal(%__MODULE__{dealer: dealer, deck: deck, players: players, trick: []})
-      when length(deck) == 52 do
-    num_players = length(players)
-
-    {dealt_hands, leftover} =
-      Deck.shuffle(deck)
-      |> Deck.deal(num_players)
-
-    players =
-      Enum.zip(players, dealt_hands)
-      |> Enum.map(fn {p, h} -> %{p | hand: h} end)
-
-    {:ok,
-     %__MODULE__{
-       deck: leftover,
-       players: players,
-       trick: [],
-       lead: rem(dealer + 1, num_players),
-       dealer: dealer
-     }}
-  end
-
-  def shuffle_deal(%__MODULE__{}), do: {:error, :invalid_input}
 end
