@@ -47,5 +47,5 @@ defprotocol Tefla.GameRules do
   @doc """
   Used internally to update the the Table's `valid_moves` after a state transformation.
   """
-  @callback valid_moves(Table.t()) :: list(Move.t())
+  @callback valid_moves(Table.t()) :: {:ok, list(Move.t())} | {:error, String.t()}
 end
