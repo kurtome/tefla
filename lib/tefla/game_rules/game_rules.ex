@@ -35,7 +35,7 @@ defprotocol Tefla.GameRules do
 
   This will return an error if the table is not in a valid state to deal the cards, like the middle of a hand.
   """
-  @callback move(Table.t(), Move.t()) :: modifier_result()
+  @callback play(Table.t(), Move.t()) :: modifier_result()
 
   @doc """
   Puts all cards back in the deck, removing them from anywhere else on the table.

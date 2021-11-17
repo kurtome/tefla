@@ -26,7 +26,7 @@ defmodule Tefla.Table do
     # the players' hands
     field :players, list(Player.t()), enforce: true
 
-    # current trick being played
+    # current trick being played, with most recently player on top
     field :trick, list(Card.t()), enforce: true
 
     # which player has the lead
@@ -38,4 +38,19 @@ defmodule Tefla.Table do
     # which player is the dealer
     field :valid_moves, list(Move.t()), enforce: true
   end
+
+  @doc """
+  The index of the current player's turn.
+  This is calculated from whose lead it is and the current trick.
+  """
+  @spec current_turn(t()) :: integer
+  def current_turn(%__MODULE__{lead: lead, trick: trick, players: players}) do
+    rem(lead + length(trick), length(players))
+  end
+
+  @doc """
+  Lead card of the current trick, or nil if none played.
+  """
+  @spec lead_card(t()) :: Card.t() | nil
+  def lead_card(%__MODULE__{trick: trick}), do: Enum.at(trick, -1)
 end

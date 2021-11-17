@@ -1,6 +1,9 @@
 defmodule Tefla.GameRules.Standard do
+  alias Tefla.Table
+  alias Tefla.Table.Card
   alias Tefla.Table.Deck
   alias Tefla.Table.Player
+  alias Tefla.Table.Move
   alias Tefla.GameRules
 
   @behaviour GameRules
@@ -57,17 +60,64 @@ defmodule Tefla.GameRules.Standard do
   def deal(_), do: {:error, "deal: invalid table"}
 
   @impl GameRules
-  def move(table, _move) do
-    table
+  def play(table, move) do
+    {:ok, valid_moves} = __MODULE__.valid_moves(table)
+
+    cond do
+      !Enum.any?(valid_moves, fn vm -> vm == move end) ->
+        {:error, "move must be valid"}
+
+      true ->
+        player = Enum.at(table.players, move.player)
+        card = Enum.at(player.hand, move.hand_card)
+        trick = [card | table.trick]
+        hand = List.delete_at(player.hand, move.hand_card)
+
+        table = %{
+          table
+          | trick: trick,
+            players:
+              List.update_at(table.players, move.player, fn _ -> %{player | hand: hand} end)
+        }
+
+        {:ok, table}
+    end
   end
 
   @impl GameRules
   def collect_deck(table) do
-    table
+    {:ok, table}
   end
 
   @impl GameRules
-  def valid_moves(_table) do
-    []
+  def valid_moves(table) do
+    p = Table.current_turn(table)
+    player = Enum.at(table.players, p)
+    player_moves = Enum.with_index(player.hand, fn _, i -> Move.new(p, i) end)
+
+    case Table.lead_card(table) do
+      nil ->
+        if table.lead != p do
+          {:error, "current player must be lead if no card played yet in trick"}
+        else
+          {:ok, player_moves}
+        end
+
+      %Card{suit: suit} ->
+        moves =
+          Enum.filter(player_moves, fn move ->
+            card = Enum.at(player.hand, move.hand_card)
+            card.suit == suit
+          end)
+
+        case moves do
+          [] ->
+            # if a player cannot follow suit, they can play any card in their hand
+            {:ok, player_moves}
+
+          _ ->
+            {:ok, moves}
+        end
+    end
   end
 end

@@ -11,4 +11,7 @@ defmodule Tefla.Table.Move do
     field :player, integer(), enforce: true
     field :hand_card, integer(), enforce: true
   end
+
+  @spec new(integer(), integer()) :: t()
+  def new(player, hand_card), do: %__MODULE__{player: player, hand_card: hand_card}
 end
