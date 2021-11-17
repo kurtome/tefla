@@ -1,8 +1,37 @@
 defmodule Tefla.GameRules.Standard do
   alias Tefla.Table.Deck
+  alias Tefla.Table.Player
   alias Tefla.GameRules
 
   @behaviour GameRules
+
+  @impl GameRules
+  def new() do
+    %Tefla.Table{
+      deck: Deck.standard(),
+      players: Enum.map(1..4, fn _ -> Player.new() end),
+      trick: [],
+      lead: 1,
+      dealer: 0,
+      valid_moves: []
+    }
+  end
+
+  @impl GameRules
+  def compare_cards(first, second) do
+    first_face_i = Enum.find_index(Deck.aces_high_faces(), fn f -> f == first.face end)
+    second_face_i = Enum.find_index(Deck.aces_high_faces(), fn f -> f == second.face end)
+
+    cond do
+      first_face_i == second_face_i ->
+        first_suit_i = Enum.find_index(Deck.suits(), fn f -> f == first.suit end)
+        second_suit_i = Enum.find_index(Deck.suits(), fn f -> f == second.suit end)
+        first_suit_i <= second_suit_i
+
+      true ->
+        first_face_i <= second_face_i
+    end
+  end
 
   @impl GameRules
   def deal(_)

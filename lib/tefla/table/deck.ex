@@ -6,6 +6,7 @@ defmodule Tefla.Table.Deck do
   use TypedStruct
 
   alias Tefla.Table.Card
+  alias Tefla.Table.Deck.Shuffler
 
   @type t() :: list(Card.t())
 
@@ -32,6 +33,16 @@ defmodule Tefla.Table.Deck do
                         end
                       end)
 
+  @spec suits() :: list(atom())
+  def suits do
+    @suits
+  end
+
+  @spec aces_high_faces() :: list(atom())
+  def aces_high_faces do
+    @aces_high_faces
+  end
+
   @spec standard() :: t()
   def standard do
     @standard_aces_high
@@ -42,7 +53,7 @@ defmodule Tefla.Table.Deck do
   """
   @spec shuffle(t()) :: t()
   def shuffle(deck) do
-    Enum.shuffle(deck)
+    Shuffler.shuffle(deck)
   end
 
   @doc """
@@ -98,5 +109,25 @@ defmodule Tefla.Table.Deck do
         {hands, leftover}
       end
     end)
+  end
+
+  defmodule Shuffler do
+    @moduledoc """
+    Shuffles decks of cards. This is implemented as a separate module so it can be mocked during unit tests.
+    """
+
+    alias Tefla.Table.Deck
+
+    @callback shuffle(Deck.t()) :: Deck.t()
+    def shuffle(deck), do: impl().shuffle(deck)
+
+    defp impl, do: Application.get_env(:tefla, :deck_shuffler, Deck.RandomShuffler)
+  end
+
+  defmodule RandomShuffler do
+    @behaviour Tefla.Table.Deck.Shuffler
+
+    @impl true
+    def shuffle(deck), do: Enum.shuffle(deck)
   end
 end

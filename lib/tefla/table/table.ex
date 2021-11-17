@@ -38,16 +38,4 @@ defmodule Tefla.Table do
     # which player is the dealer
     field :valid_moves, list(Move.t()), enforce: true
   end
-
-  @spec new() :: t()
-  def new() do
-    %__MODULE__{
-      deck: Deck.standard(),
-      players: Enum.map(1..4, fn _ -> Player.new() end),
-      trick: [],
-      lead: 1,
-      dealer: 0,
-      valid_moves: []
-    }
-  end
 end

@@ -5,9 +5,23 @@ defprotocol Tefla.GameRules do
   """
 
   alias Tefla.Table
+  alias Tefla.Table.Card
   alias Tefla.Table.Move
 
   @typep modifier_result :: {:ok, Table.t()} | {:error, String.t()}
+
+  @doc """
+  Creates a new game table with the deck and players necessary for this game.
+  """
+  @callback new() :: Table.t()
+
+  @doc """
+  Compares two cards from the deck, returns true if `first` is lower than (or equal to) `second`.
+
+  This compares the cards' intrinsic ordering, which for trick taking may be different based on the game rules such as
+  trump cards.
+  """
+  @callback compare_cards(Card.t(), Card.t()) :: boolean()
 
   @doc """
   Deals the cards into the players' hands, and updates `valid_moves` after dealing

@@ -48,6 +48,7 @@ defmodule Tefla.MixProject do
       {:dialyxir, "~> 1.1", only: [:dev, :test], runtime: false},
       {:doctor, "~> 0.18.0", only: [:dev, :test], runtime: false},
       {:ex_check, "~> 0.14.0", only: [:dev, :test], runtime: false},
+      {:mox, "~> 1.0", only: [:test]},
       {:swoosh, "~> 1.3"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},

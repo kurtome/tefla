@@ -4,7 +4,10 @@ defmodule Tefla.Table.Card do
   use TypedStruct
 
   typedstruct do
-    field :suit, atom(), enforce: true
     field :face, atom(), enforce: true
+    field :suit, atom(), enforce: true
   end
+
+  @spec new(atom(), atom()) :: t()
+  def new(face, suit), do: %__MODULE__{face: face, suit: suit}
 end
