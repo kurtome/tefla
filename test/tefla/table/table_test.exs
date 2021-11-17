@@ -1,15 +1,19 @@
 defmodule Tefla.Table.TableTest do
   use ExUnit.Case, async: true
 
-  alias Tefla.Table.Deck
   alias Tefla.GameRules.Standard
+  alias Tefla.Table
+  alias Tefla.Table.Deck.MockShuffler
 
-  test "deal 4 hands, full deck" do
-    table =
+  test "current player" do
+    Mox.stub(MockShuffler, :shuffle, &Function.identity/1)
+
+    {:ok, table} =
       Standard.new()
       |> Standard.deal()
 
-    {[hand1, hand2, hand3, hand4], leftover} = Deck.deal(deck, 4)
-    assert length(hand1) == 13
+    assert table.dealer == 0
+    assert table.lead == 1
+    assert Table.current_turn(table) == 1
   end
 end
