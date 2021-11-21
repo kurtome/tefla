@@ -130,4 +130,20 @@ defmodule Tefla.Table.Deck do
     @impl true
     def shuffle(deck), do: Enum.shuffle(deck)
   end
+
+  defmodule IdentityShuffler do
+    @behaviour Tefla.Table.Deck.Shuffler
+
+    @impl true
+    def shuffle(deck), do: deck
+  end
+
+  defmodule SortShuffler do
+    @behaviour Tefla.Table.Deck.Shuffler
+
+    @impl true
+    def shuffle(deck) do
+      Enum.sort(deck, &Standard.compare_cards/2)
+    end
+  end
 end

@@ -1,5 +1,5 @@
 defmodule Tefla.GameRules.StandardTest do
-  use ExUnit.Case, async: true
+  use Tefla.DataCase, async: true
 
   alias Tefla.GameRules.Standard
   alias Tefla.Table.Deck.MockShuffler
@@ -56,8 +56,7 @@ defmodule Tefla.GameRules.StandardTest do
   end
 
   test "play move" do
-    table = Standard.new()
-    {:ok, table} = Standard.deal(table)
+    table = build(:table_identity_deal)
 
     [player1, player2, player3, player4] = table.players
     assert hd(player4.hand) == Card.new(:ace, :spades)
@@ -109,5 +108,23 @@ defmodule Tefla.GameRules.StandardTest do
     assert length(player2.hand) == 12
     assert length(player3.hand) == 12
     assert length(player4.hand) == 12
+  end
+
+  test "play full game" do
+    table = build(:table_deal)
+
+    table =
+      Enum.reduce(1..52, table, fn i, table ->
+        {:ok, valid_moves} = Standard.valid_moves(table)
+        assert length(valid_moves) > 0
+        move = Enum.random(valid_moves)
+        {:ok, table} = Standard.play(table, move)
+        cards_left = Enum.map(table.players, fn p -> length(p.hand) end) |> Enum.sum()
+        assert cards_left == 52 - i
+        table
+      end)
+
+    cards_left = Enum.map(table.players, fn p -> length(p.hand) end) |> Enum.sum()
+    assert cards_left == 0
   end
 end

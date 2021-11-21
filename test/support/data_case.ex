@@ -25,6 +25,7 @@ defmodule Tefla.DataCase do
       import Ecto.Changeset
       import Ecto.Query
       import Tefla.DataCase
+      import Tefla.Factory
     end
   end
 

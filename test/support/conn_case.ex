@@ -24,6 +24,7 @@ defmodule TeflaWeb.ConnCase do
       import Plug.Conn
       import Phoenix.ConnTest
       import TeflaWeb.ConnCase
+      import Tefla.Factory
 
       alias TeflaWeb.Router.Helpers, as: Routes
 

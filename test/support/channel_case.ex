@@ -23,6 +23,7 @@ defmodule TeflaWeb.ChannelCase do
       # Import conveniences for testing with channels
       import Phoenix.ChannelTest
       import TeflaWeb.ChannelCase
+      import Tefla.Factory
 
       # The default endpoint for testing
       @endpoint TeflaWeb.Endpoint
