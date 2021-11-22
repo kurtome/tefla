@@ -53,4 +53,20 @@ defmodule Tefla.Table do
   """
   @spec lead_card(t()) :: Card.t() | nil
   def lead_card(%__MODULE__{trick: trick}), do: Enum.at(trick, -1)
+
+  @doc """
+  Number of cards remaining in hand
+  """
+  @spec hand_cards_remaining(t()) :: integer()
+  def hand_cards_remaining(%__MODULE__{players: players}) do
+    Enum.map(players, fn p -> length(p.hand) end) |> Enum.sum()
+  end
+
+  @doc """
+  Whether or not a hand is currently being played
+  """
+  @spec hand_in_progress?(t()) :: boolean()
+  def hand_in_progress?(table) do
+    hand_cards_remaining(table) > 0
+  end
 end

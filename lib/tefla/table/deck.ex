@@ -143,7 +143,7 @@ defmodule Tefla.Table.Deck do
 
     @impl true
     def shuffle(deck) do
-      Enum.sort(deck, &Standard.compare_cards/2)
+      Enum.sort(deck, &Tefla.GameRules.Standard.compare_cards/2)
     end
   end
 end

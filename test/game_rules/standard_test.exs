@@ -2,6 +2,7 @@ defmodule Tefla.GameRules.StandardTest do
   use Tefla.DataCase, async: true
 
   alias Tefla.GameRules.Standard
+  alias Tefla.Table
   alias Tefla.Table.Deck.MockShuffler
   alias Tefla.Table.Card
   alias Tefla.Table.Move
@@ -119,12 +120,10 @@ defmodule Tefla.GameRules.StandardTest do
         assert length(valid_moves) > 0
         move = Enum.random(valid_moves)
         {:ok, table} = Standard.play(table, move)
-        cards_left = Enum.map(table.players, fn p -> length(p.hand) end) |> Enum.sum()
-        assert cards_left == 52 - i
+        assert Table.hand_cards_remaining(table) == 52 - i
         table
       end)
 
-    cards_left = Enum.map(table.players, fn p -> length(p.hand) end) |> Enum.sum()
-    assert cards_left == 0
+    assert Table.hand_in_progress?(table) == false
   end
 end
