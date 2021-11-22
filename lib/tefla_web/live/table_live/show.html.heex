@@ -1,0 +1,32 @@
+<h1 class="text-4xl">Table Prototype</h1>
+
+<button phx-click="deal" class="border border-black rounded px-2">
+    Deal
+</button>
+
+<div>
+    <p>Deck size: <%= length(@table.deck) %></p>
+    <p>Players' hand size: <%= Enum.map(@table.players, fn p -> length(p.hand) end) |> Enum.join(", ") %></p>
+</div>
+
+<div>
+    <%= for {player, player_i} <- Enum.with_index(@table.players) do %>
+      <div class="flex w-screen overflow-hidden" >
+          <% current_turn = Tefla.Table.current_turn(@table) %>
+          <% {:ok, valid_moves} = Tefla.GameRules.Standard.valid_moves(@table) %>
+          <%= for {card, card_i} <- Enum.with_index(player.hand) do %>
+            <div
+                    phx-click="play_card"
+                    phx-value-player={player_i}
+                    phx-value-hand_card={card_i}
+                    class={"w-16 border #{if(Enum.any?(valid_moves, fn m -> m.player == player_i and m.hand_card == card_i end), do: "border-green-500 cursor-pointer")}"}>
+                <%= if player_i == current_turn do %>
+                    <%= card_img(card) %>
+                <% else %>
+                    <%= card_back() %>
+                <% end %>
+            </div>
+          <% end %>
+      </div>
+    <% end %>
+</div>

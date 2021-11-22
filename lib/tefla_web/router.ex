@@ -18,6 +18,8 @@ defmodule TeflaWeb.Router do
     pipe_through :browser
 
     get "/", HomeController, :index
+
+    live "/table", TableLive.Show, :show
   end
 
   # Other scopes may use custom stacks.
