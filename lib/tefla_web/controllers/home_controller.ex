@@ -1,4 +1,4 @@
-defmodule TeflaWeb.PageController do
+defmodule TeflaWeb.HomeController do
   use TeflaWeb, :controller
 
   def index(conn, _params) do
