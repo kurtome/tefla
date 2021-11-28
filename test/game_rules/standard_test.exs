@@ -24,7 +24,8 @@ defmodule Tefla.GameRules.StandardTest do
     assert length(table.deck) == 52
     assert length(table.players) == 4
     assert table.dealer == 0
-    Mox.expect(MockShuffler, :shuffle, fn deck -> Enum.sort(deck, &Standard.compare_cards/2) end)
+
+    #    Mox.expect(MockShuffler, :shuffle, fn deck -> Enum.sort(deck, &Standard.compare_cards/2) end)
     {:ok, table} = Standard.deal(table)
     assert length(table.deck) == 0
     assert table.dealer == 0
@@ -36,10 +37,10 @@ defmodule Tefla.GameRules.StandardTest do
     assert length(player3.hand) == 13
     assert length(player4.hand) == 13
 
-    assert hd(player4.hand) == Card.new(:ace, :spades)
-    assert hd(player3.hand) == Card.new(:ace, :hearts)
-    assert hd(player2.hand) == Card.new(:ace, :diamonds)
-    assert hd(player1.hand) == Card.new(:ace, :clubs)
+    assert hd(player4.hand) == Card.new(:five, :clubs)
+    assert hd(player3.hand) == Card.new(:four, :clubs)
+    assert hd(player2.hand) == Card.new(:three, :clubs)
+    assert hd(player1.hand) == Card.new(:two, :clubs)
 
     Mox.verify!()
   end
@@ -60,13 +61,13 @@ defmodule Tefla.GameRules.StandardTest do
     table = build(:table_identity_deal)
 
     [player1, player2, player3, player4] = table.players
-    assert hd(player4.hand) == Card.new(:ace, :spades)
-    assert hd(player3.hand) == Card.new(:king, :spades)
-    assert hd(player2.hand) == Card.new(:queen, :spades)
-    assert hd(player1.hand) == Card.new(:jack, :spades)
+    assert hd(player4.hand) == Card.new(:five, :clubs)
+    assert hd(player3.hand) == Card.new(:four, :clubs)
+    assert hd(player2.hand) == Card.new(:three, :clubs)
+    assert hd(player1.hand) == Card.new(:two, :clubs)
 
     {:ok, table} = Standard.play(table, Move.new(1, 0))
-    assert table.trick == [Card.new(:queen, :spades)]
+    assert table.trick == [Card.new(:three, :clubs)]
     [player1, player2, player3, player4] = table.players
     assert length(player1.hand) == 13
     assert length(player2.hand) == 12
@@ -74,7 +75,7 @@ defmodule Tefla.GameRules.StandardTest do
     assert length(player4.hand) == 13
 
     {:ok, table} = Standard.play(table, Move.new(2, 0))
-    assert table.trick == [Card.new(:king, :spades), Card.new(:queen, :spades)]
+    assert table.trick == [Card.new(:four, :clubs), Card.new(:three, :clubs)]
     [player1, player2, player3, player4] = table.players
     assert length(player1.hand) == 13
     assert length(player2.hand) == 12
@@ -84,9 +85,9 @@ defmodule Tefla.GameRules.StandardTest do
     {:ok, table} = Standard.play(table, Move.new(3, 0))
 
     assert table.trick == [
-             Card.new(:ace, :spades),
-             Card.new(:king, :spades),
-             Card.new(:queen, :spades)
+             Card.new(:five, :clubs),
+             Card.new(:four, :clubs),
+             Card.new(:three, :clubs)
            ]
 
     [player1, player2, player3, player4] = table.players
@@ -98,10 +99,10 @@ defmodule Tefla.GameRules.StandardTest do
     {:ok, table} = Standard.play(table, Move.new(0, 0))
 
     assert table.trick == [
-             Card.new(:jack, :spades),
-             Card.new(:ace, :spades),
-             Card.new(:king, :spades),
-             Card.new(:queen, :spades)
+             Card.new(:two, :clubs),
+             Card.new(:five, :clubs),
+             Card.new(:four, :clubs),
+             Card.new(:three, :clubs)
            ]
 
     [player1, player2, player3, player4] = table.players

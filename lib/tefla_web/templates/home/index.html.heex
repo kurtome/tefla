@@ -1,9 +1,5 @@
 <section>
   <div>
-    <div class="grid grid-flow-row-dense grid-cols-4">
-      <%= for (card <- @deck) do %>
-        <%= card_img(card) %>
-      <% end %>
-    </div>
+    <p><a class="text-blue-600 hover:underline" href={Routes.table_show_path(@conn, :show)}>Table prototype</a></p>
   </div>
 </section>

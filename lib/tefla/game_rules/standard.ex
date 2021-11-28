@@ -21,14 +21,18 @@ defmodule Tefla.GameRules.Standard do
   end
 
   @impl GameRules
-  def compare_cards(first, second) do
+  def compare_cards(first, second, opts \\ []) do
+    suit_first? = Keyword.get(opts, :suit_first?, false)
     first_face_i = Enum.find_index(Deck.aces_high_faces(), fn f -> f == first.face end)
     second_face_i = Enum.find_index(Deck.aces_high_faces(), fn f -> f == second.face end)
+    first_suit_i = Enum.find_index(Deck.suits(), fn f -> f == first.suit end)
+    second_suit_i = Enum.find_index(Deck.suits(), fn f -> f == second.suit end)
 
     cond do
+      suit_first? and first_suit_i != second_suit_i ->
+        first_suit_i <= second_suit_i
+
       first_face_i == second_face_i ->
-        first_suit_i = Enum.find_index(Deck.suits(), fn f -> f == first.suit end)
-        second_suit_i = Enum.find_index(Deck.suits(), fn f -> f == second.suit end)
         first_suit_i <= second_suit_i
 
       true ->
@@ -49,6 +53,11 @@ defmodule Tefla.GameRules.Standard do
     {dealt_hands, leftover} =
       Deck.shuffle(table.deck)
       |> Deck.deal(num_players)
+
+    dealt_hands =
+      Enum.map(dealt_hands, fn h ->
+        Enum.sort(h, fn a, b -> compare_cards(a, b, suit_first?: true) end)
+      end)
 
     players =
       Enum.zip(table.players, dealt_hands)

@@ -6,6 +6,6 @@ defmodule TeflaWeb.PageControllerTest do
   test "GET /", %{conn: conn} do
     Mox.stub(MockShuffler, :shuffle, &Function.identity/1)
     conn = get(conn, "/")
-    assert html_response(conn, 200) =~ "two of hearts"
+    assert html_response(conn, 200) =~ "Tefla"
   end
 end

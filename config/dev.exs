@@ -1,5 +1,9 @@
 import Config
 
+# Application config
+config :tefla,
+  env: :dev
+
 # Configure your database
 config :tefla, Tefla.Repo,
   username: "postgres",

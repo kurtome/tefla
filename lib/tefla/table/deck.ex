@@ -10,7 +10,7 @@ defmodule Tefla.Table.Deck do
 
   @type t() :: list(Card.t())
 
-  @suits [:clubs, :diamonds, :hearts, :spades]
+  @suits [:clubs, :diamonds, :spades, :hearts]
   @aces_high_faces [
     :two,
     :three,

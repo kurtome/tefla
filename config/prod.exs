@@ -1,5 +1,9 @@
 import Config
 
+# Application config
+config :tefla,
+  env: :prod
+
 # For production, don't forget to configure the url host
 # to something meaningful, Phoenix uses this information
 # when generating URLs.

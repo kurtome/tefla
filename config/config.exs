@@ -8,7 +8,8 @@
 import Config
 
 config :tefla,
-  ecto_repos: [Tefla.Repo]
+  ecto_repos: [Tefla.Repo],
+  env: nil
 
 # Configures the endpoint
 config :tefla, TeflaWeb.Endpoint,

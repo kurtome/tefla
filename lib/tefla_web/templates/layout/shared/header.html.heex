@@ -1,0 +1,11 @@
+<header>
+    <section class="container">
+        <nav class="flex justify-between align-center">
+            <a href="https://hexdocs.pm/phoenix/overview.html">Get Started</a>
+            <h1 class="text-xl">Tefla</h1>
+            <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
+                <%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %>
+            <% end %>
+        </nav>
+    </section>
+</header>

@@ -1,6 +1,8 @@
 defmodule TeflaWeb.TableLive.Show do
   use TeflaWeb, :live_view
 
+  import TeflaWeb.SharedComponents
+
   alias Tefla.Table
   alias Tefla.GameRules.Standard
 

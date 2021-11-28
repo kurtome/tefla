@@ -1,15 +1,19 @@
-<h1 class="text-4xl">Table Prototype</h1>
+<.section>
+    <h1 class="text-4xl">Table Prototype</h1>
+</.section>
 
-<button phx-click="deal" class="border border-black rounded px-2">
-    Deal
-</button>
+<.section>
+    <button phx-click="deal" class="border border-black rounded px-2">
+        Deal
+    </button>
 
-<div>
-    <p>Deck size: <%= length(@table.deck) %></p>
-    <p>Players' hand size: <%= Enum.map(@table.players, fn p -> length(p.hand) end) |> Enum.join(", ") %></p>
-</div>
+    <div>
+        <p>Deck size: <%= length(@table.deck) %></p>
+        <p>Players' hand size: <%= Enum.map(@table.players, fn p -> length(p.hand) end) |> Enum.join(", ") %></p>
+    </div>
+</.section>
 
-<div>
+<.section>
     <%= for {player, player_i} <- Enum.with_index(@table.players) do %>
       <div class="flex w-screen overflow-hidden" >
           <% current_turn = Tefla.Table.current_turn(@table) %>
@@ -29,4 +33,11 @@
           <% end %>
       </div>
     <% end %>
-</div>
+    <div class="flex w-screen overflow-hidden" >
+        <%= for card <- @table.trick do %>
+            <div class="w-16">
+                <%= card_img(card) %>
+            </div>
+        <% end %>
+    </div>
+</.section>
