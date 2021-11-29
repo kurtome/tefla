@@ -15,7 +15,7 @@
 
 <.section>
     <%= for {player, player_i} <- Enum.with_index(@table.players) do %>
-      <div class="flex w-screen overflow-hidden" >
+      <div class="flex" >
           <% current_turn = Tefla.Table.current_turn(@table) %>
           <% {:ok, valid_moves} = Tefla.GameRules.Standard.valid_moves(@table) %>
           <%= for {card, card_i} <- Enum.with_index(player.hand) do %>
@@ -33,7 +33,7 @@
           <% end %>
       </div>
     <% end %>
-    <div class="flex w-screen overflow-hidden" >
+    <div class="flex" >
         <%= for card <- @table.trick do %>
             <div class="w-16">
                 <%= card_img(card) %>
