@@ -69,4 +69,12 @@ defmodule Tefla.Table do
   def hand_in_progress?(table) do
     hand_cards_remaining(table) > 0
   end
+
+  @doc """
+  Whether or not a all players have already played in the current trick
+  """
+  @spec trick_full?(t()) :: boolean()
+  def trick_full?(table) do
+    length(table.trick) == length(table.players)
+  end
 end

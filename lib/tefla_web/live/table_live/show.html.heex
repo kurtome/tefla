@@ -10,6 +10,7 @@
     <div>
         <p>Deck size: <%= length(@table.deck) %></p>
         <p>Players' hand size: <%= Enum.map(@table.players, fn p -> length(p.hand) end) |> Enum.join(", ") %></p>
+        <p>Players' tricks taken: <%= Enum.map(@table.players, fn p -> length(p.tricks_taken) end) |> Enum.join(", ") %></p>
     </div>
 </.section>
 
@@ -24,7 +25,7 @@
                     phx-click="play_card"
                     phx-value-player={player_i}
                     phx-value-hand_card={card_i}
-                    class={"relative w-16 border #{if(playable?, do: "cursor-pointer")}"}>
+                    class={"w-16 border #{if(playable?, do: "cursor-pointer")}"}>
                 <%= if player_i == current_turn do %>
                    <%= card_img(card, img_class: if(playable?, do: "", else: "filter brightness-75")) %>
                 <% else %>
@@ -35,10 +36,15 @@
       </div>
     <% end %>
     <div class="flex" >
-        <%= for card <- @table.trick do %>
-            <div class="w-16">
-                <%= card_img(card) %>
-            </div>
+        <% winning_card_index = Tefla.GameRules.Standard.trick_winning_card(@table) %>
+        <%= for {card, i} <- Enum.with_index(@table.trick) do %>
+            <%= if winning_card_index == i do %>
+               <div phx-click="collect_trick" >
+                   <%= card_img(card) %>
+               </div>
+            <% else %>
+               <%= card_img(card, img_class: "filter brightness-75") %>
+            <% end %>
         <% end %>
     </div>
 </.section>

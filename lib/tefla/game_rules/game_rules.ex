@@ -45,7 +45,18 @@ defprotocol Tefla.GameRules do
   @callback collect_deck(Table.t()) :: modifier_result()
 
   @doc """
+  Puts the current trick in the winning player's taken tricks, only valid if the current trick is full.
+  """
+  @callback collect_trick(Table.t()) :: modifier_result()
+
+  @doc """
   Used internally to update the the Table's `valid_moves` after a state transformation.
   """
   @callback valid_moves(Table.t()) :: {:ok, list(Move.t())} | {:error, String.t()}
+
+  @doc """
+  Returns the index of the card that is currently winning the trick. If the trick is full, this returned index can
+  be used to calculate which player won the trick.
+  """
+  @callback trick_winning_card(Table.t()) :: integer()
 end

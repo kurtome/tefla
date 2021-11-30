@@ -117,12 +117,20 @@ defmodule Tefla.GameRules.StandardTest do
 
     table =
       Enum.reduce(1..52, table, fn i, table ->
+        IO.puts(i)
         {:ok, valid_moves} = Standard.valid_moves(table)
         assert length(valid_moves) > 0
         move = Enum.random(valid_moves)
         {:ok, table} = Standard.play(table, move)
+
         assert Table.hand_cards_remaining(table) == 52 - i
-        table
+
+        if Table.trick_full?(table) do
+          {:ok, table} = Standard.collect_trick(table)
+          table
+        else
+          table
+        end
       end)
 
     assert Table.hand_in_progress?(table) == false

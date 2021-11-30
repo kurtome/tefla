@@ -44,4 +44,15 @@ defmodule TeflaWeb.TableLive.Show do
         {:noreply, socket}
     end
   end
+
+  @impl true
+  def handle_event("collect_trick", _, socket) do
+    with {:ok, table} <- Standard.collect_trick(socket.assigns.table) do
+      {:noreply, assign(socket, :table, table)}
+    else
+      {:error, errors} ->
+        Logger.warn("Invalid move. #{inspect(errors)}")
+        {:noreply, socket}
+    end
+  end
 end

@@ -99,20 +99,51 @@ defmodule Tefla.GameRules.Standard do
   end
 
   @impl GameRules
+  def collect_trick(table) do
+    if !Table.trick_full?(table) do
+      {:error, "trick must be finished to collect it"}
+    else
+      winning_card_i = trick_winning_card(table)
+      num_players = length(table.players)
+      # trick is in reverse order, so calculate the offset from lead
+      player_offset_i = num_players - 1 - winning_card_i
+      winning_player_i = rem(table.lead + player_offset_i, num_players)
+      player = Enum.at(table.players, winning_player_i)
+      tricks_taken = [table.trick | player.tricks_taken]
+
+      table = %{
+        table
+        | lead: winning_player_i,
+          trick: [],
+          players:
+            List.update_at(table.players, winning_player_i, fn _ ->
+              %{player | tricks_taken: tricks_taken}
+            end)
+      }
+
+      {:ok, table}
+    end
+  end
+
+  @impl GameRules
   def valid_moves(table) do
     p = Table.current_turn(table)
     player = Enum.at(table.players, p)
     player_moves = Enum.with_index(player.hand, fn _, i -> Move.new(p, i) end)
 
-    case Table.lead_card(table) do
-      nil ->
+    case {Table.trick_full?(table), Table.lead_card(table)} do
+      {true, _} ->
+        # If the trick is full, there are no legal moves.
+        {:ok, []}
+
+      {_, nil} ->
         if table.lead != p do
           {:error, "current player must be lead if no card played yet in trick"}
         else
           {:ok, player_moves}
         end
 
-      %Card{suit: suit} ->
+      {_, %Card{suit: suit}} ->
         moves =
           Enum.filter(player_moves, fn move ->
             card = Enum.at(player.hand, move.hand_card)
@@ -128,5 +159,23 @@ defmodule Tefla.GameRules.Standard do
             {:ok, moves}
         end
     end
+  end
+
+  @impl GameRules
+  def trick_winning_card(table) do
+    lead_card = Table.lead_card(table)
+
+    {_card, i} =
+      Enum.with_index(table.trick)
+      |> Enum.reduce({nil, nil}, fn {card, i}, {max, max_i} ->
+        cond do
+          is_nil(lead_card) -> {nil, nil}
+          is_nil(max) -> {card, i}
+          card.suit == lead_card.suit and compare_cards(max, card) -> {card, i}
+          true -> {max, max_i}
+        end
+      end)
+
+    i
   end
 end
