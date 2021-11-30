@@ -6,32 +6,32 @@ defmodule TeflaWeb.DeckHelpers do
   use Phoenix.HTML
   alias Tefla.Table.Card
 
-  def card_back() do
-    content_tag(
-      :div,
-      tag(:img,
-        alt: "face down card",
-        src: "https://cdn.trick.games/cards_default/back.svg",
-        class: "w-full"
-      ),
-      class: "w-48"
-    )
+  def card_back(opts \\ []) do
+    make_card_img("https://cdn.trick.games/cards_default/back.svg", opts)
   end
 
   @doc """
   Generates a card element.
   """
-  def card_img(%Card{} = card) do
-    alt = "#{card.face} of #{card.suit}"
+  def card_img(%Card{} = card, opts \\ []) do
+    make_card_img(
+      "https://cdn.trick.games/cards_default/#{card.face}_of_#{card.suit}.svg",
+      Keyword.merge(opts, alt: "#{card.face} of #{card.suit}")
+    )
+  end
+
+  defp make_card_img(url, opts) when is_binary(url) do
+    alt = Keyword.get(opts, :alt, nil)
+    img_class = Keyword.get(opts, :img_class, "")
 
     content_tag(
       :div,
       tag(:img,
         alt: alt,
-        src: "https://cdn.trick.games/cards_default/#{card.face}_of_#{card.suit}.svg",
-        class: "w-full"
+        src: url,
+        class: "w-full #{img_class}"
       ),
-      class: "w-48"
+      class: "w-36"
     )
   end
 end

@@ -19,13 +19,14 @@
           <% current_turn = Tefla.Table.current_turn(@table) %>
           <% {:ok, valid_moves} = Tefla.GameRules.Standard.valid_moves(@table) %>
           <%= for {card, card_i} <- Enum.with_index(player.hand) do %>
+            <% playable? = Enum.any?(valid_moves, fn m -> m.player == player_i and m.hand_card == card_i end) %>
             <div
                     phx-click="play_card"
                     phx-value-player={player_i}
                     phx-value-hand_card={card_i}
-                    class={"w-16 border #{if(Enum.any?(valid_moves, fn m -> m.player == player_i and m.hand_card == card_i end), do: "border-green-500 cursor-pointer")}"}>
+                    class={"relative w-16 border #{if(playable?, do: "cursor-pointer")}"}>
                 <%= if player_i == current_turn do %>
-                    <%= card_img(card) %>
+                   <%= card_img(card, img_class: if(playable?, do: "", else: "filter brightness-75")) %>
                 <% else %>
                     <%= card_back() %>
                 <% end %>
