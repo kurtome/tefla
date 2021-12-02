@@ -15,36 +15,36 @@
 </.section>
 
 <.section>
-    <%= for {player, player_i} <- Enum.with_index(@table.players) do %>
-      <div class="flex" >
-          <% current_turn = Tefla.Table.current_turn(@table) %>
-          <% {:ok, valid_moves} = Tefla.GameRules.Standard.valid_moves(@table) %>
-          <%= for {card, card_i} <- Enum.with_index(player.hand) do %>
-            <% playable? = Enum.any?(valid_moves, fn m -> m.player == player_i and m.hand_card == card_i end) %>
-            <div
-                    phx-click="play_card"
-                    phx-value-player={player_i}
-                    phx-value-hand_card={card_i}
-                    class={"w-16 border #{if(playable?, do: "cursor-pointer")}"}>
-                <%= if player_i == current_turn do %>
-                   <%= card_img(card, img_class: if(playable?, do: "", else: "filter brightness-75")) %>
+    <div class="grid grid-rows-5 grid-cols-5 gap-4">
+        <div class="border">1</div>
+        <div class="border col-span-3">
+            <.hand player_i={rem(@player_i + 2, length(@table.players))} table={@table} />
+        </div>
+        <div class="border">3</div>
+        <div class="border row-span-3">
+            <.hand player_i={rem(@player_i + 1, length(@table.players))} table={@table} vertical="true" />
+        </div>
+        <div class="border row-span-3 col-span-3">
+            <div class="flex justify-center items-center h-full w-full" >
+                <% winning_card_index = Tefla.GameRules.Standard.trick_winning_card(@table) %>
+                <%= for {card, i} <- Enum.with_index(@table.trick) do %>
+                <%= if winning_card_index == i do %>
+                    <div phx-click="collect_trick" >
+                        <%= card_img(card) %>
+                    </div>
                 <% else %>
-                    <%= card_back() %>
+                    <%= card_img(card, img_class: "filter brightness-75") %>
                 <% end %>
+              <% end %>
             </div>
-          <% end %>
-      </div>
-    <% end %>
-    <div class="flex" >
-        <% winning_card_index = Tefla.GameRules.Standard.trick_winning_card(@table) %>
-        <%= for {card, i} <- Enum.with_index(@table.trick) do %>
-            <%= if winning_card_index == i do %>
-               <div phx-click="collect_trick" >
-                   <%= card_img(card) %>
-               </div>
-            <% else %>
-               <%= card_img(card, img_class: "filter brightness-75") %>
-            <% end %>
-        <% end %>
+        </div>
+        <div class="border row-span-3 relative">
+            <.hand player_i={rem(@player_i + 3, length(@table.players))} table={@table} vertical={true} />
+        </div>
+        <div class="border">x</div>
+        <div class="border col-span-3">
+            <.hand player_i={@player_i} table={@table} />
+        </div>
+        <div class="border">x</div>
     </div>
 </.section>

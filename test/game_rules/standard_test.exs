@@ -75,7 +75,7 @@ defmodule Tefla.GameRules.StandardTest do
     assert length(player4.hand) == 13
 
     {:ok, table} = Standard.play(table, Move.new(2, 0))
-    assert table.trick == [Card.new(:four, :clubs), Card.new(:three, :clubs)]
+    assert table.trick == [Card.new(:three, :clubs), Card.new(:four, :clubs)]
     [player1, player2, player3, player4] = table.players
     assert length(player1.hand) == 13
     assert length(player2.hand) == 12
@@ -85,9 +85,9 @@ defmodule Tefla.GameRules.StandardTest do
     {:ok, table} = Standard.play(table, Move.new(3, 0))
 
     assert table.trick == [
-             Card.new(:five, :clubs),
+             Card.new(:three, :clubs),
              Card.new(:four, :clubs),
-             Card.new(:three, :clubs)
+             Card.new(:five, :clubs)
            ]
 
     [player1, player2, player3, player4] = table.players
@@ -99,10 +99,10 @@ defmodule Tefla.GameRules.StandardTest do
     {:ok, table} = Standard.play(table, Move.new(0, 0))
 
     assert table.trick == [
-             Card.new(:two, :clubs),
-             Card.new(:five, :clubs),
+             Card.new(:three, :clubs),
              Card.new(:four, :clubs),
-             Card.new(:three, :clubs)
+             Card.new(:five, :clubs),
+             Card.new(:two, :clubs)
            ]
 
     [player1, player2, player3, player4] = table.players
@@ -117,7 +117,6 @@ defmodule Tefla.GameRules.StandardTest do
 
     table =
       Enum.reduce(1..52, table, fn i, table ->
-        IO.puts(i)
         {:ok, valid_moves} = Standard.valid_moves(table)
         assert length(valid_moves) > 0
         move = Enum.random(valid_moves)

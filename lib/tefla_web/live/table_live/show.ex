@@ -2,6 +2,7 @@ defmodule TeflaWeb.TableLive.Show do
   use TeflaWeb, :live_view
 
   import TeflaWeb.SharedComponents
+  import TeflaWeb.TableLive.Components
 
   alias Tefla.Table
   alias Tefla.GameRules.Standard
@@ -18,7 +19,8 @@ defmodule TeflaWeb.TableLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, "Table Prototype")
-     |> assign(:table, Standard.new())}
+     |> assign(:table, Standard.new())
+     |> assign(:player_i, 0)}
   end
 
   @impl true

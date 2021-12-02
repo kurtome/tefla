@@ -31,7 +31,7 @@ defmodule TeflaWeb.DeckHelpers do
         src: url,
         class: "w-full #{img_class}"
       ),
-      class: "relative w-36"
+      class: "relative w-24"
     )
   end
 end

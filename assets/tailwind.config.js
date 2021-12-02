@@ -24,10 +24,17 @@ module.exports = {
       red: colors.rose,
       yellow: colors.amber,
     },
-    extend: {},
+    extend: {
+      aspectRatio: {
+        cardwidth: '222.22',
+        cardheight: '322.88',
+      }
+    },
   },
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/aspect-ratio'),
+  ],
 }

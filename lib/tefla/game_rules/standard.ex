@@ -79,7 +79,7 @@ defmodule Tefla.GameRules.Standard do
       true ->
         player = Enum.at(table.players, move.player)
         card = Enum.at(player.hand, move.hand_card)
-        trick = [card | table.trick]
+        trick = table.trick ++ [card]
         hand = List.delete_at(player.hand, move.hand_card)
 
         table = %{
@@ -105,9 +105,7 @@ defmodule Tefla.GameRules.Standard do
     else
       winning_card_i = trick_winning_card(table)
       num_players = length(table.players)
-      # trick is in reverse order, so calculate the offset from lead
-      player_offset_i = num_players - 1 - winning_card_i
-      winning_player_i = rem(table.lead + player_offset_i, num_players)
+      winning_player_i = rem(table.lead + winning_card_i, num_players)
       player = Enum.at(table.players, winning_player_i)
       tricks_taken = [table.trick | player.tricks_taken]
 
