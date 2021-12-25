@@ -38,7 +38,6 @@ defmodule TeflaWeb.TableLive.Show do
   def handle_event("play_card", move_params, socket) do
     with {:ok, move} <- Tefla.Table.Move.from_params(move_params),
          {:ok, table} <- Standard.play(socket.assigns.table, move) do
-      Logger.info("Cast move: #{inspect(move)}")
       {:noreply, assign(socket, :table, table)}
     else
       {:error, errors} ->

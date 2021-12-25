@@ -40,4 +40,56 @@ defmodule TeflaWeb.TableLive.Components do
     </div>
     """
   end
+
+  @doc """
+  Assigns:
+   - table
+  """
+  def trick(assigns) do
+    trick_winning_card = Tefla.GameRules.Standard.trick_winning_card(assigns.table) || 0
+    played_cards = Tefla.Table.players_trick_cards(assigns.table)
+    lead = assigns.table.lead || 0
+    winning_i = rem(trick_winning_card + lead, 4)
+
+    [player_0_card, player_1_card, player_2_card, player_3_card] = played_cards
+
+    ~H"""
+    <div class="grid grid-rows-3 grid-cols-3 gap-1">
+       <div></div>
+       <div><.trick_card card={player_2_card} winning?={winning_i == 2}) /></div>
+       <div></div>
+       <div><.trick_card card={player_1_card} winning?={winning_i == 1} /></div>
+       <div></div>
+       <div><.trick_card card={player_3_card} winning?={winning_i == 3} /></div>
+       <div></div>
+       <div><.trick_card card={player_0_card} winning?={winning_i == 0} /></div>
+       <div></div>
+    </div>
+    """
+  end
+
+  @doc """
+  Assigns:
+   - winning?: is currently winning the trick
+   - card
+  """
+  def trick_card(assigns) do
+    card = assigns.card
+
+    if is_nil(card) do
+      ~H"""
+        <div></div>
+      """
+    else
+      ~H"""
+       <%= if @winning? do %>
+         <div phx-click="collect_trick" >
+           <%= card_img(card) %>
+         </div>
+       <% else %>
+         <%= card_img(card, img_class: "filter brightness-75") %>
+       <% end %>
+      """
+    end
+  end
 end

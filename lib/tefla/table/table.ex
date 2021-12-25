@@ -55,6 +55,21 @@ defmodule Tefla.Table do
   def lead_card(%__MODULE__{trick: trick}), do: Enum.at(trick, -1)
 
   @doc """
+  Returns a list of the currently played cards for each player, at the player's index. The value at the player's index
+  will be nil if they haven't played in the current trick.
+  """
+  @spec players_trick_cards(t()) :: [Card.t() | nil]
+  def players_trick_cards(%__MODULE__{trick: trick, lead: lead} = table) do
+    num_players = length(table.players)
+
+    0..(num_players - 1)
+    |> Enum.map(fn player_i ->
+      card_i = rem(num_players + (player_i - lead), num_players)
+      Enum.at(trick, card_i)
+    end)
+  end
+
+  @doc """
   Number of cards remaining in hand
   """
   @spec hand_cards_remaining(t()) :: integer()

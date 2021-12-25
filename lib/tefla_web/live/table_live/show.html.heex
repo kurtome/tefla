@@ -16,35 +16,20 @@
 
 <.section>
     <div class="grid grid-rows-5 grid-cols-5 gap-4">
-        <div class="border">1</div>
-        <div class="border col-span-3">
+        <div class="border col-span-5 flex justify-center">
             <.hand player_i={rem(@player_i + 2, length(@table.players))} table={@table} />
         </div>
-        <div class="border">3</div>
         <div class="border row-span-3">
-            <.hand player_i={rem(@player_i + 1, length(@table.players))} table={@table} vertical="true" />
+            <.hand class="items-end pb-28" player_i={rem(@player_i + 1, length(@table.players))} table={@table} vertical="true" />
         </div>
         <div class="border row-span-3 col-span-3">
-            <div class="flex justify-center items-center h-full w-full" >
-                <% winning_card_index = Tefla.GameRules.Standard.trick_winning_card(@table) %>
-                <%= for {card, i} <- Enum.with_index(@table.trick) do %>
-                <%= if winning_card_index == i do %>
-                    <div phx-click="collect_trick" >
-                        <%= card_img(card) %>
-                    </div>
-                <% else %>
-                    <%= card_img(card, img_class: "filter brightness-75") %>
-                <% end %>
-              <% end %>
-            </div>
+            <.trick table={@table} />
         </div>
         <div class="border row-span-3 relative">
-            <.hand player_i={rem(@player_i + 3, length(@table.players))} table={@table} vertical={true} />
+            <.hand class="pb-28" player_i={rem(@player_i + 3, length(@table.players))} table={@table} vertical={true} />
         </div>
-        <div class="border">x</div>
-        <div class="border col-span-3">
+        <div class="border col-span-5 flex justify-center">
             <.hand player_i={@player_i} table={@table} />
         </div>
-        <div class="border">x</div>
     </div>
 </.section>
