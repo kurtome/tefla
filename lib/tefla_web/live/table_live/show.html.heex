@@ -1,35 +1,29 @@
-<.section>
-    <h1 class="text-4xl">Table Prototype</h1>
-</.section>
-
-<.section>
-    <button phx-click="deal" class="border border-black rounded px-2">
-        Deal
-    </button>
-
-    <div>
-        <p>Deck size: <%= length(@table.deck) %></p>
-        <p>Players' hand size: <%= Enum.map(@table.players, fn p -> length(p.hand) end) |> Enum.join(", ") %></p>
-        <p>Players' tricks taken: <%= Enum.map(@table.players, fn p -> length(p.tricks_taken) end) |> Enum.join(", ") %></p>
-    </div>
-</.section>
-
-<.section>
-    <div class="grid grid-rows-5 grid-cols-5 gap-4">
-        <div class="border col-span-5 flex justify-center">
-            <.hand player_i={rem(@player_i + 2, length(@table.players))} table={@table} />
+<div class="h-screen mh-screen w-screen mw-screen p-4">
+    <div class="h-full w-full grid grid-rows-5 grid-cols-5 gap-4">
+        <div class="col-span-5 flex justify-center">
+            <.player_info table={@table} player_i={@player_top_i} />
+            <.hand player_i={@player_top_i} table={@table} />
         </div>
-        <div class="border row-span-3">
-            <.hand class="items-end pb-28" player_i={rem(@player_i + 1, length(@table.players))} table={@table} vertical="true" />
+        <div class="row-span-3">
+            <.player_info table={@table} player_i={@player_left_i} />
+            <.hand class="items-end pb-28" player_i={@player_left_i} table={@table} vertical="true" />
         </div>
-        <div class="border row-span-3 col-span-3">
-            <.trick table={@table} />
+        <div class="row-span-3 col-span-3 flex justify-center items-center">
+            <%= if @table.deck != [] do  %>
+              <button phx-click="deal" class="border border-black rounded px-2">
+                Deal
+              </button>
+            <% else %>
+              <.trick table={@table} />
+            <% end %>
         </div>
-        <div class="border row-span-3 relative">
-            <.hand class="pb-28" player_i={rem(@player_i + 3, length(@table.players))} table={@table} vertical={true} />
+        <div class="row-span-3 relative">
+            <.player_info table={@table} player_i={@player_right_i} />
+            <.hand class="pb-28" player_i={@player_right_i} table={@table} vertical={true} />
         </div>
-        <div class="border col-span-5 flex justify-center">
+        <div class="col-span-5 flex justify-center">
+            <.player_info table={@table} player_i={@player_i} />
             <.hand player_i={@player_i} table={@table} />
         </div>
     </div>
-</.section>
+</div>

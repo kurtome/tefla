@@ -2,7 +2,7 @@ const colors = require('tailwindcss/colors')
 
 module.exports = {
   mode: 'jit',
-  purge: [
+  content: [
     './js/**/*.js',
     '../lib/*_web/**/*.*ex'
   ],
@@ -19,15 +19,24 @@ module.exports = {
       white: colors.white,
       blue: colors.blue,
       green: colors.green,
-      gray: colors.trueGray,
+      gray: colors.neutral,
       indigo: colors.indigo,
       red: colors.rose,
-      yellow: colors.amber,
+      amber: colors.amber,
+      yellow: colors.yellow,
     },
     extend: {
       aspectRatio: {
         cardwidth: '222.22',
         cardheight: '322.88',
+      },
+      brightness: {
+        55: '.55',
+        6: '.6',
+        65: '.65',
+        70: '.7',
+        80: '.8',
+        85: '.85',
       }
     },
   },

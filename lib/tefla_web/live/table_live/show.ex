@@ -1,7 +1,6 @@
 defmodule TeflaWeb.TableLive.Show do
   use TeflaWeb, :live_view
 
-  import TeflaWeb.SharedComponents
   import TeflaWeb.TableLive.Components
 
   alias Tefla.Table
@@ -10,17 +9,18 @@ defmodule TeflaWeb.TableLive.Show do
   require Logger
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, socket}
+  def mount(_params, session, socket) do
+    {:ok,
+     socket
+     |> assign(:page_title, "Table Prototype")
+     |> assign(:table, Standard.new())
+     |> assign(:player_i, Map.get(session, "player_i", 0))
+     |> assign_players()}
   end
 
   @impl true
   def handle_params(_, _, socket) do
-    {:noreply,
-     socket
-     |> assign(:page_title, "Table Prototype")
-     |> assign(:table, Standard.new())
-     |> assign(:player_i, 0)}
+    {:noreply, socket}
   end
 
   @impl true
@@ -55,5 +55,15 @@ defmodule TeflaWeb.TableLive.Show do
         Logger.warn("Invalid move. #{inspect(errors)}")
         {:noreply, socket}
     end
+  end
+
+  defp assign_players(socket) do
+    table = socket.assigns.table
+    player_i = socket.assigns.player_i
+
+    socket
+    |> assign(:player_left_i, Table.player_index(table, player_i, 1))
+    |> assign(:player_top_i, Table.player_index(table, player_i, 2))
+    |> assign(:player_right_i, Table.player_index(table, player_i, 3))
   end
 end

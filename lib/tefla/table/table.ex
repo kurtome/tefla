@@ -70,6 +70,14 @@ defmodule Tefla.Table do
   end
 
   @doc """
+  Calculate the index of one player relative to another.
+  """
+  @spec player_index(t(), integer(), integer()) :: integer()
+  def player_index(%__MODULE__{players: players}, start_index, offset) do
+    rem(start_index + offset, length(players))
+  end
+
+  @doc """
   Number of cards remaining in hand
   """
   @spec hand_cards_remaining(t()) :: integer()
