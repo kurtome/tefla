@@ -1,6 +1,5 @@
 defmodule Tefla.GameRules.Standard do
   alias Tefla.Table
-  alias Tefla.Table.Card
   alias Tefla.Table.Deck
   alias Tefla.Table.Player
   alias Tefla.Table.Move
@@ -135,17 +134,19 @@ defmodule Tefla.GameRules.Standard do
         {:ok, []}
 
       {_, nil} ->
+        # No card lead yet
         if table.lead != p do
           {:error, "current player must be lead if no card played yet in trick"}
         else
           {:ok, player_moves}
         end
 
-      {_, %Card{suit: suit}} ->
+      {_, lead_card} ->
+        # Player must follow suit if possible
         moves =
           Enum.filter(player_moves, fn move ->
             card = Enum.at(player.hand, move.hand_card)
-            card.suit == suit
+            card.suit == lead_card.suit
           end)
 
         case moves do

@@ -52,7 +52,7 @@ defmodule Tefla.Table do
   Lead card of the current trick, or nil if none played.
   """
   @spec lead_card(t()) :: Card.t() | nil
-  def lead_card(%__MODULE__{trick: trick}), do: Enum.at(trick, -1)
+  def lead_card(%__MODULE__{trick: trick}), do: Enum.at(trick, 0)
 
   @doc """
   Returns a list of the currently played cards for each player, at the player's index. The value at the player's index
