@@ -30,6 +30,12 @@ module.exports = {
         cardwidth: '222.22',
         cardheight: '322.88',
       },
+      boxShadow: {
+        'glow': '0 0 3px 0 rgba(0, 0, 0 / 0.1), 0 0 2px -1px rgb(0 0 0 / 0.1)',
+        'glow-md': '0 0 6px -1px rgba(0, 0, 0 / 0.1), 0 0 4px -2px rgb(0 0 0 / 0.1)',
+        'glow-lg': '0 0 15px -3px rgba(0, 0, 0 / 0.1), 0 0 6px -4px rgb(0 0 0 / 0.1)',
+        'glow-xl': '0 0 25px -5px rgba(0, 0, 0 / 0.1), 0 0 10px -6px rgb(0 0 0 / 0.1)',
+      },
       brightness: {
         55: '.55',
         6: '.6',

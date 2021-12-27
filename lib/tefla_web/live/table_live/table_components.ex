@@ -100,7 +100,7 @@ defmodule TeflaWeb.TableLive.Components do
       ~H"""
        <%= if @winning? do %>
          <div class="cursor-pointer" phx-click="collect_trick" >
-           <%= card_img(card, img_class: "shadow-lg shadow-blue-200") %>
+           <%= card_img(card, img_class: "shadow-glow-xl shadow-blue-400") %>
          </div>
        <% else %>
          <%= card_img(card) %>
